@@ -71,20 +71,12 @@ src
   - **`retrieval_graph/`**: Manages the conversation flow and RAG implementation.
     - **`graph.py`**: Core logic for handling conversation states and actions.
     - **`prompts.py`**: Contains prompt templates used in the chatbot.
-    - **
-
-state.py
-
-**: Manages the agent's state throughout the conversation.
+    - ** state.py **: Manages the agent's state throughout the conversation.
     - **`configuration.py`**: Specific configurations for the retrieval graph.
-  - **`shared/`**: Shared utilities and modules.
+    - **`shared/`**: Shared utilities and modules.
     - **`retrieval.py`**: Handles document retrieval using the vector database.
     - **`utils.py`**: Helper functions used across the project.
-    - **
-
-state.py
-
-**: Shared state management.
+    - ** state.py **: Shared state management.
     - **`configuration.py`**: General configurations.
     - **`index/`**: Stores vector index files (`index.faiss`, `index.pkl`).
     - **`index_test.py`**: Tests for the indexing functionality.
@@ -110,11 +102,7 @@ state.py
 - **Enhance Error Handling**: Implement more robust error handling and logging mechanisms.
 - **Increase Test Coverage**: Write additional unit and integration tests to cover more scenarios.
 - **Optimize Performance**: Improve indexing and retrieval processes for better scalability.
-- **Improve User Interface**: Enhance the 
-
-index.html
-
- page for a more user-friendly experience.
+- **Improve User Interface**: Enhance the index.html page for a more user-friendly experience.
 - **Dockerization and Deployment**: Containerize the application using Docker and set up continuous integration/continuous deployment (CI/CD) pipelines.
 
 ---
@@ -165,11 +153,7 @@ send_company_profile
 
 
 
-- This function, defined in 
-
-graph.py
-
-, demonstrates how the system sends the company profile to the user's email (using a mock function) and returns a confirmation message.
+- This function, defined in graph.py demonstrates how the system sends the company profile to the user's email (using a mock function) and returns a confirmation message.
 
    ```python
    async def send_company_profile(state: AgentState, *, config: RunnableConfig) -> dict[str, Any]:
