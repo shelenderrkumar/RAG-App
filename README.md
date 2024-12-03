@@ -9,8 +9,8 @@
 1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/shelenderrkumar/RAG-App.git
+   cd RAG-App
    ```
 
 2. **Create a Virtual Environment**
@@ -29,8 +29,34 @@
 4. **Run the Application**
 
    ```bash
-   python main.py
+   uvicorn main:app --reload
    ```
+
+
+
+### Frontend
+
+1. **Installation**
+```sh
+npm install
+# or
+pnpm install
+```
+
+1. **Environment Variables**
+Create .env file with:
+```
+LANGGRAPH_API_URL=<your-langgraph-api-url>
+LANGCHAIN_API_KEY=<your-langchain-api-key>
+```
+1. **Development**
+```sh
+npm run dev
+# or
+pnpm dev
+```
+The app will be available at http://localhost:3000
+
 
 ### Architecture Overview
 
@@ -92,14 +118,12 @@ src
 ### Known Limitations
 
 - **Email Functionality**: Currently uses a mock function for sending emails; it doesn't send real emails.
-- **Error Handling**: Basic error handling is present, but there's room for more comprehensive exception management.
 - **Testing**: Limited tests are included; expanding test coverage would improve reliability.
 - **Scalability**: The application may require optimization to handle larger datasets and more users efficiently.
 
 ### Future Improvements
 
 - **Integrate Real Email Service**: Connect to an actual email service provider to enable sending real emails to users.
-- **Enhance Error Handling**: Implement more robust error handling and logging mechanisms.
 - **Increase Test Coverage**: Write additional unit and integration tests to cover more scenarios.
 - **Optimize Performance**: Improve indexing and retrieval processes for better scalability.
 - **Improve User Interface**: Enhance the index.html page for a more user-friendly experience.
