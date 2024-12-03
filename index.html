@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Example</title>
+    <script>
+        let socket;
+
+        function connectWebSocket() {
+            // Connect to FastAPI WebSocket endpoint
+            socket = new WebSocket("ws://127.0.0.1:8000/chat");
+
+            socket.onopen = () => {
+                console.log("WebSocket connection established");
+            };
+
+            socket.onmessage = (event) => {
+                const message = event.data;
+                console.log("Received from server:", message);
+                document.getElementById("messages").innerText = message;
+            };
+
+            socket.onclose = () => {
+                console.log("WebSocket connection closed");
+            };
+        }
+
+        function sendMessage() {
+            const message = document.getElementById("messageInput").value;
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(message);  // Send message to the backend
+            }
+        }
+
+        socket.onmessage = (event) => {
+            const message = JSON.parse(event.data);  // Parse JSON if sent in JSON format
+            if (message.type === "stream") {
+                const content = message.content;
+                console.log("Received from server:", content);
+                document.getElementById("messages").innerText += content;  // Append the message
+            }
+        };
+
+    </script>
+</head>
+<body>
+    <h1>WebSocket with FastAPI Example</h1>
+    <button onclick="connectWebSocket()">Connect to WebSocket</button><br><br>
+    <input type="text" id="messageInput" placeholder="Type your message" />
+    <button onclick="sendMessage()">Send Message</button><br><br>
+    <div id="messages"></div>
+</body>
+</html>

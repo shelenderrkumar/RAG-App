@@ -1,0 +1,74 @@
+
+# AI Developer Technical Test
+
+## Overview
+Create an intelligent chatbot agent that can engage with users about company information and handle email communications. The agent should demonstrate your ability to implement conversational AI, RAG (Retrieval Augmented Generation), and real-time communication features.
+
+## Requirements
+
+### 1. Technical Stack
+- **Backend**: Node.js/Python (candidate's choice)
+- **Database**: Any vector database of your choice
+- **Required Libraries**:
+  - LangChain or equivalent for RAG implementation
+  - WebSocket for real-time communication
+  - Any UI component library of your choice
+
+### 2. Core Features
+
+#### Conversation Flow
+1. Present a brief company overview (maximum 2 sentences)
+2. Ask if the user wants to know more about the company
+3. If yes, retrieve relevant information from the knowledge base
+4. Offer to send company profile via email
+5. If user agrees, collect and confirm email address
+6. Send confirmation message after email dispatch
+
+#### RAG Implementation
+- Load and process the provided company PDF document
+- Create and manage vector embeddings
+- Implement relevant search functionality
+- Use search results to generate contextual responses
+
+#### Email Functionality
+- Implement an email sending function (mock implementation is acceptable)
+- Log email details to console for verification
+
+#### Real-time Chat Interface
+- Implement WebSocket connection
+- Display message history
+
+### 3. Evaluation Criteria
+
+#### Technical Implementation (60%)
+- Correct implementation of RAG
+- Proper WebSocket handling
+- Clean and efficient code structure
+- Error handling
+- Code documentation
+
+#### Conversation Flow (40%)
+- Proper implementation of conversation states
+- Accurate information retrieval
+- Email handling workflow
+- Response appropriateness
+
+## Submission Requirements
+1. Source code via GitHub repository
+2. README with:
+   - Setup instructions
+   - Architecture overview
+   - Key design decisions
+   - Known limitations
+   - Future improvements
+3. Brief documentation of RAG implementation
+4. Video demo of working application (max 5 minutes)
+
+## Evaluation Process
+1. Code review by senior developers
+2. Technical discussion of implementation
+3. Review of documentation
+4. Testing of live application
+5. Assessment of bonus features
+
+**Good luck!**
