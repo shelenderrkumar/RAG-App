@@ -1,0 +1,14 @@
+[
+  {"question": "Who founded the company?", "expected_page": 1, "answer_contains": "Maya Chen"},
+  {"question": "When was Lumora founded and where?", "expected_page": 1, "answer_contains": "2019"},
+  {"question": "How much funding did they raise?", "expected_page": 1, "answer_contains": "12 million"},
+  {"question": "Who is the CTO?", "expected_page": 1, "answer_contains": "Omar Siddiqui"},
+  {"question": "How far ahead can demand be forecast?", "expected_page": 2, "answer_contains": "90 days"},
+  {"question": "What does Lumora Replenish do?", "expected_page": 2, "answer_contains": "purchase orders"},
+  {"question": "How long does implementation take?", "expected_page": 2, "answer_contains": "six to eight weeks"},
+  {"question": "How much does the Growth plan cost?", "expected_page": 3, "answer_contains": "349"},
+  {"question": "Is there a free trial?", "expected_page": 3, "answer_contains": "30-day"},
+  {"question": "Is customer data used to train models for others?", "expected_page": 3, "answer_contains": "never"},
+  {"question": "What security certification do they have?", "expected_page": 3, "answer_contains": "SOC 2"},
+  {"question": "What is the sales email address?", "expected_page": 3, "answer_contains": "sales@"}
+]
