@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Company Assistant</title>
+  <style>
+    :root {
+      --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #6b7280;
+      --bot: #eef1f6; --user: #2f6fed; --user-text: #ffffff; --border: #e3e6ec;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12151b; --panel: #1a1e26; --text: #e6e8ec; --muted: #9aa1ad;
+        --bot: #242a35; --user: #3b7bff; --user-text: #ffffff; --border: #2a303b;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; justify-content: center;
+      background: var(--bg); color: var(--text);
+      font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    main {
+      width: 100%; max-width: 760px; height: 100vh; display: flex; flex-direction: column;
+      background: var(--panel); border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    header { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    header h1 { margin: 0; font-size: 17px; }
+    header p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+    #log { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; word-wrap: break-word; }
+    .bot { align-self: flex-start; background: var(--bot); border-bottom-left-radius: 4px; }
+    .user { align-self: flex-end; background: var(--user); color: var(--user-text); border-bottom-right-radius: 4px; }
+    .error { align-self: center; color: #d14343; font-size: 13px; }
+    .typing { color: var(--muted); font-style: italic; }
+    form { display: flex; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--border); }
+    input {
+      flex: 1; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font: inherit;
+    }
+    button {
+      padding: 0 18px; border: 0; border-radius: 10px; background: var(--user);
+      color: var(--user-text); font: inherit; font-weight: 600; cursor: pointer;
+    }
+    button:disabled, input:disabled { opacity: 0.55; cursor: default; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Company Assistant</h1>
+    <p>Retrieval-augmented answers from the company profile, streamed live</p>
+  </header>
+  <div id="log" aria-live="polite"></div>
+  <form id="form">
+    <input id="input" autocomplete="off" placeholder="Type a message..." maxlength="2000" disabled />
+    <button id="send" disabled>Send</button>
+  </form>
+</main>
+<script>
+  const log = document.getElementById("log");
+  const form = document.getElementById("form");
+  const input = document.getElementById("input");
+  const send = document.getElementById("send");
+  const bubbles = new Map();  // message id -> element, so streamed text is finalised in place
+  let typing = null;
+
+  function add(cls, text) {
+    const el = document.createElement("div");
+    el.className = `msg ${cls}`;
+    el.textContent = text;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+  function setBusy(busy) {
+    input.disabled = send.disabled = busy;
+    if (busy && !typing) typing = add("bot typing", "Thinking...");
+    if (!busy) { typing?.remove(); typing = null; input.focus(); }
+  }
+  function bubbleFor(id) {
+    typing?.remove(); typing = null;
+    if (!bubbles.has(id)) bubbles.set(id, add("bot", ""));
+    return bubbles.get(id);
+  }
+
+  const ws = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws/chat`);
+  setBusy(true);
+  ws.onmessage = ({ data }) => {
+    const event = JSON.parse(data);
+    if (event.type === "token") bubbleFor(event.id).textContent += event.text;
+    else if (event.type === "message") bubbleFor(event.id).textContent = event.text;
+    else if (event.type === "turn_end") setBusy(false);
+    else if (event.type === "error") { add("error", event.text); setBusy(false); }
+    log.scrollTop = log.scrollHeight;
+  };
+  ws.onclose = () => { add("error", "Disconnected. Refresh the page to start again."); input.disabled = send.disabled = true; };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text || ws.readyState !== WebSocket.OPEN) return;
+    add("user", text);
+    ws.send(JSON.stringify({ type: "user", text }));
+    input.value = "";
+    setBusy(true);
+  });
+</script>
+</body>
+</html>
