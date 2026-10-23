@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Stateful RAG Chatbot: a LangGraph state machine with human-in-the-loop turns and cited retrieval"
+authors:
+  - family-names: Kumar
+    given-names: Shelender
+repository-code: "https://github.com/shelenderrkumar/RAG-App"
+license: MIT
+type: software
