@@ -1,4 +1,4 @@
-# Company RAG Chatbot: A Stateful Conversational Agent with LangGraph
+# Stateful RAG Chatbot: A Conversational Agent with LangGraph
 
 [![CI](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml/badge.svg)](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
