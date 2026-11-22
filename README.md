@@ -1,7 +1,7 @@
-# Company RAG Chatbot: A Stateful Conversational Agent with LangGraph
+# Stateful RAG Chatbot: A Conversational Agent with LangGraph
 
 [![CI](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml/badge.svg)](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml)
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 A chatbot that **leads a structured conversation** about a company instead of only
@@ -80,14 +80,38 @@ delete `data/index/` so the index is rebuilt. Docker:
 
 ## Evaluation
 
-`data/eval_questions.json` holds 12 questions, each labelled with the page and the text span
-that answers it. `scripts/evaluate_retrieval.py` reports **hit rate@k** and **MRR** so that
-chunking and retrieval settings can be compared empirically:
+**Dataset:** [`data/eval_questions.json`](data/eval_questions.json), 12 questions about the
+demo company profile, each labelled with the page that answers it and a text span from that
+answer.
+
+**Metrics** (computed by [`scripts/evaluate_retrieval.py`](scripts/evaluate_retrieval.py) over
+the top-*k* retrieved chunks):
+- **Page hit rate@k:** the fraction of questions where at least one retrieved chunk comes from
+  the labelled page.
+- **Answer hit rate@k:** the fraction where at least one retrieved chunk contains the labelled
+  answer span.
+- **MRR:** the mean over questions of 1/rank of the first chunk containing the answer span
+  (0 if none does).
+
+**Results**
+
+| Chunk size | Overlap | k | Page hit rate@k | Answer hit rate@k | MRR |
+|---|---|---|---|---|---|
+| 800 | 120 | 4 | pending | pending | pending |
+| 300 | 50 | 4 | pending | pending | pending |
+
+*Pending:* the evaluation embeds the document with OpenAI `text-embedding-3-small`, which needs
+an OpenAI API key, and it has not been run with one yet. To produce the numbers:
 
 ```bash
+pip install -e ".[dev]"
+export OPENAI_API_KEY=sk-...
 python scripts/evaluate_retrieval.py --chunk-size 800 --overlap 120 --k 4
 python scripts/evaluate_retrieval.py --chunk-size 300 --overlap 50 --k 4
 ```
+
+Each run prints per-question ranks and writes
+`results/retrieval_chunk<size>_overlap<overlap>_k<k>.json`; the table is filled from those files.
 
 ## Testing
 
@@ -131,7 +155,7 @@ tests/
   checkpointer to survive restarts.
 - Retrieval is dense-only. Next steps: hybrid BM25 + vector search and a cross-encoder
   re-ranker, measured with the evaluation script.
-- Answer faithfulness is not yet evaluated automatically (e.g. LLM-as-judge or RAGAS-style
+- Answer faithfulness is not evaluated automatically yet (e.g. LLM-as-judge or RAGAS-style
   groundedness against the cited chunks).
 - No authentication or rate limiting on the WebSocket endpoint.
 
