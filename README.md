@@ -1,7 +1,7 @@
 # Stateful RAG Chatbot: A Conversational Agent with LangGraph
 
 [![CI](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml/badge.svg)](https://github.com/shelenderrkumar/RAG-App/actions/workflows/ci.yml)
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 A chatbot that **leads a structured conversation** about a company instead of only

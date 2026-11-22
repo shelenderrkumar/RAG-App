@@ -13,7 +13,7 @@ Each run also writes its metrics and per-question ranks to results/ as JSON.
 import argparse
 import asyncio
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from langchain_openai import OpenAIEmbeddings
@@ -79,7 +79,7 @@ async def evaluate(chunk_size: int, overlap: int, k: int) -> None:
                 "answer_hit_rate": span_hits / n,
                 "mrr": sum(reciprocal_ranks) / n,
                 "per_question": per_question,
-                "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "run_at": datetime.now(UTC).isoformat(timespec="seconds"),
             },
             indent=2,
         )
